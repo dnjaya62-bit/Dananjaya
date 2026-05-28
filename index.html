@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>StyleWear Store</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    background:#f5f5f5;
+}
+
+/* HEADER */
+header{
+    background:#111;
+    color:white;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:15px 8%;
+    position:sticky;
+    top:0;
+    z-index:1000;
+}
+
+.logo{
+    font-size:26px;
+    font-weight:bold;
+}
+
+/* MENU */
+nav ul{
+    display:flex;
+    list-style:none;
+    gap:20px;
+}
+
+nav a{
+    color:white;
+    text-decoration:none;
+}
+
+/* MENU BUTTON */
+.menu-btn{
+    font-size:30px;
+    cursor:pointer;
+    display:none;
+}
+
+/* HERO */
+.hero{
+    height:90vh;
+    background:url("https://images.unsplash.com/photo-1523398002811-999ca8dec234?w=1200") center/cover;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    color:white;
+}
+
+.hero-content{
+    background:rgba(0,0,0,0.5);
+    padding:30px;
+    border-radius:10px;
+}
+
+.hero h1{
+    font-size:50px;
+}
+
+/* PRODUCTS */
+.products{
+    padding:60px 8%;
+}
+
+.section-title{
+    text-align:center;
+    font-size:35px;
+    margin-bottom:30px;
+}
+
+.product-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:20px;
+}
+
+.card{
+    background:white;
+    border-radius:10px;
+    overflow:hidden;
+    box-shadow:0 4px 10px rgba(0,0,0,0.1);
+}
+
+.card img{
+    width:100%;
+    height:300px;
+    object-fit:cover;
+}
+
+.card-content{
+    padding:15px;
+}
+
+.price{
+    color:#ff6b00;
+    font-weight:bold;
+    font-size:20px;
+}
+
+button{
+    width:100%;
+    padding:10px;
+    border:none;
+    background:#111;
+    color:white;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#ff6b00;
+}
+
+/* CART BUTTON */
+.cart-btn{
+    position:fixed;
+    right:20px;
+    bottom:20px;
+    background:#111;
+    color:white;
+    padding:15px;
+    border-radius:50px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+/* CART SIDEBAR */
+.cart{
+    position:fixed;
+    right:-400px;
+    top:0;
+    width:350px;
+    height:100%;
+    background:white;
+    box-shadow:-5px 0 20px rgba(0,0,0,0.2);
+    padding:20px;
+    transition:0.3s;
+    z-index:2000;
+}
+
+.cart.open{
+    right:0;
+}
+
+.cart-item{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin:10px 0;
+    border-bottom:1px solid #eee;
+    padding-bottom:10px;
+}
+
+.qty-controls button{
+    width:25px;
+    height:25px;
+    margin:0 3px;
+    background:#111;
+    color:white;
+    border:none;
+    cursor:pointer;
+}
+
+.remove{
+    color:red;
+    font-size:12px;
+    cursor:pointer;
+}
+
+.total{
+    margin-top:20px;
+    font-size:18px;
+    font-weight:bold;
+}
+
+/* OVERLAY */
+.cart-overlay{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,0.4);
+    opacity:0;
+    visibility:hidden;
+    transition:0.3s;
+    z-index:1500;
+}
+
+.cart-overlay.show{
+    opacity:1;
+    visibility:visible;
+}
+
+/* MOBILE MENU FIX */
+@media(max-width:768px){
+
+    .menu-btn{
+        display:block;
+    }
+
+    nav ul{
+        position:absolute;
+        top:70px;
+        left:0;
+        width:100%;
+        background:#111;
+        flex-direction:column;
+        text-align:center;
+        display:none;
+        padding:20px 0;
+    }
+
+    nav ul.show{
+        display:flex;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <div class="logo">StyleWear</div>
+
+    <nav>
+        <ul id="menu">
+            <li><a href="#men">Men</a></li>
+            <li><a href="#women">Women</a></li>
+            <li><a href="#featured">Featured</a></li>
+        </ul>
+    </nav>
+
+    <div class="menu-btn" id="menuBtn" onclick="toggleMenu()">☰</div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+    <div class="hero-content">
+        <h1>Fashion Store</h1>
+        <p>Best clothing collection</p>
+    </div>
+</section>
+
+<!-- MEN -->
+<section class="products" id="men">
+<h2 class="section-title">Men</h2>
+
+<div class="product-grid">
+
+<div class="card">
+<img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=600">
+<div class="card-content">
+<h3>T-Shirt</h3>
+<p class="price">$25</p>
+<button onclick="addToCart('T-Shirt',25)">Add To Cart</button>
+</div>
+</div>
+
+<div class="card">
+<img src="https://images.unsplash.com/photo-1541099649105-f69ad21f3246?w=600">
+<div class="card-content">
+<h3>Jeans</h3>
+<p class="price">$40</p>
+<button onclick="addToCart('Jeans',40)">Add To Cart</button>
+</div>
+</div>
+
+</div>
+</section>
+
+<!-- WOMEN -->
+<section class="products" id="women">
+<h2 class="section-title">Women</h2>
+
+<div class="product-grid">
+
+<div class="card">
+<img src="https://images.unsplash.com/photo-1496747611176-843222e1e57c?w=600">
+<div class="card-content">
+<h3>Dress</h3>
+<p class="price">$45</p>
+<button onclick="addToCart('Dress',45)">Add To Cart</button>
+</div>
+</div>
+
+</div>
+</section>
+
+<!-- FEATURED -->
+<section class="products" id="featured">
+<h2 class="section-title">Featured</h2>
+
+<div class="product-grid">
+
+<div class="card">
+<img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=600">
+<div class="card-content">
+<h3>Jacket</h3>
+<p class="price">$60</p>
+<button onclick="addToCart('Jacket',60)">Add To Cart</button>
+</div>
+</div>
+
+</div>
+</section>
+
+<!-- CART BUTTON -->
+<div class="cart-btn" onclick="toggleCart()">
+🛒 Cart (<span id="cartCount">0</span>)
+</div>
+
+<!-- CART -->
+<div class="cart" id="cart">
+    <span class="close-cart" onclick="toggleCart()">✖</span>
+    <h2>Your Cart</h2>
+<div id="cartItems"></div>
+
+<div class="total">
+Total: $<span id="total">0</span>
+</div>
+</div>
+
+<div class="cart-overlay" id="overlay" onclick="toggleCart()"></div>
+
+<script>
+
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+/* SAVE CART */
+function saveCart(){
+    localStorage.setItem("cart", JSON.stringify(cart));
+}
+
+/* ADD TO CART */
+function addToCart(name, price){
+
+    let item = cart.find(i => i.name === name);
+
+    if(item){
+        item.qty++;
+    }else{
+        cart.push({name, price, qty:1});
+    }
+
+    updateCart();
+}
+
+/* UPDATE CART */
+function updateCart(){
+
+    let cartItems = document.getElementById("cartItems");
+    cartItems.innerHTML = "";
+
+    let total = 0;
+    let count = 0;
+
+    if(cart.length === 0){
+        cartItems.innerHTML = "<p>Your cart is empty</p>";
+    }
+
+    cart.forEach((item,index)=>{
+
+        total += item.price * item.qty;
+        count += item.qty;
+
+        cartItems.innerHTML += `
+        <div class="cart-item">
+            <div>
+                <b>${item.name}</b><br>
+                $${item.price}
+            </div>
+
+            <div class="qty-controls">
+                <button onclick="changeQty(${index},-1)">-</button>
+                ${item.qty}
+                <button onclick="changeQty(${index},1)">+</button>
+            </div>
+
+            <div class="remove" onclick="removeItem(${index})">Remove</div>
+        </div>
+        `;
+    });
+
+    document.getElementById("total").innerText = total;
+    document.getElementById("cartCount").innerText = count;
+
+    saveCart();
+}
+
+/* CHANGE QTY */
+function changeQty(i,v){
+    cart[i].qty += v;
+    if(cart[i].qty<=0) cart.splice(i,1);
+    updateCart();
+}
+
+/* REMOVE ITEM */
+function removeItem(i){
+    cart.splice(i,1);
+    updateCart();
+}
+
+/* TOGGLE CART */
+function toggleCart(){
+    document.getElementById("cart").classList.toggle("open");
+    document.getElementById("overlay").classList.toggle("show");
+}
+
+/* MENU FIX */
+function toggleMenu(){
+    document.getElementById("menu").classList.toggle("show");
+
+    if(document.getElementById("menu").classList.contains("show")){
+        document.getElementById("menuBtn").textContent = "✖";
+    }else{
+        document.getElementById("menuBtn").textContent = "☰";
+    }
+}
+
+/* INIT */
+updateCart();
+
+</script>
+
+</body>
+</html>
